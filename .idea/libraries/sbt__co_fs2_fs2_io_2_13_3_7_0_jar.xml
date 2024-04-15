@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="sbt: co.fs2:fs2-io_2.13:3.7.0:jar" external-system-id="SBT">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/co/fs2/fs2-io_2.13/3.7.0/fs2-io_2.13-3.7.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/co/fs2/fs2-io_2.13/3.7.0/fs2-io_2.13-3.7.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/co/fs2/fs2-io_2.13/3.7.0/fs2-io_2.13-3.7.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

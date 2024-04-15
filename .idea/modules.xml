@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/sink/.idea/modules/sink.iml" filepath="$PROJECT_DIR$/sink/.idea/modules/sink.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sink/.idea/modules/sink-build.iml" filepath="$PROJECT_DIR$/sink/.idea/modules/sink-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/spark-job.iml" filepath="$PROJECT_DIR$/.idea/modules/spark-job.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sparknow.iml" filepath="$PROJECT_DIR$/.idea/modules/sparknow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sparknow-build.iml" filepath="$PROJECT_DIR$/.idea/modules/sparknow-build.iml" />
+    </modules>
+  </component>
+</project>

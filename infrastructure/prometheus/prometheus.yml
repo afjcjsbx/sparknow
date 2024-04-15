@@ -1,0 +1,11 @@
+# global config
+global:
+  scrape_interval: 15s
+
+# A scrape configuration containing exactly one endpoint to scrape:
+scrape_configs:
+  - job_name: 'pushgateway'
+    honor_labels: true
+    scrape_interval: 500ms
+    static_configs:
+      - targets: ['pushgateway:9191']

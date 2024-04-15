@@ -1,0 +1,11 @@
+# Project exclude paths
+/project/project/target/
+/project/target/
+/sink/project/project/target/
+/sink/project/target/
+/sink/target/
+/sink/target/scala-2.13/classes/
+/sink/target/scala-2.13/test-classes/
+/spark-job/target/
+/spark-job/target/scala-2.13/classes/
+/target/

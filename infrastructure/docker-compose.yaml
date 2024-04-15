@@ -1,0 +1,108 @@
+version: "3.1"
+services:
+  spark-master:
+    image: spark351-scala213-master:latest
+    container_name: spark-master
+    depends_on:
+      - prometheus
+      - grafana
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    environment:
+      - "INIT_DAEMON_STEP=setup_spark"
+      - "SPARK_LOCAL_IP=spark-master"
+    volumes:
+      - ${PWD}/spark/data/treasure_island.txt:/opt/spark-data/treasure_island.txt
+      - ${PWD}/spark/jars/spark-job-assembly-0.1.0-SNAPSHOT.jar:/opt/spark-apps/spark-job-assembly-0.1.0-SNAPSHOT.jar
+      - ${PWD}/spark/jars/sink-assembly-0.1.0-SNAPSHOT.jar:/opt/spark-apps/sink-assembly-0.1.0-SNAPSHOT.jar
+      - ${PWD}/spark/jars/log4j-slf4j2-impl-2.20.0.jar:/spark/jars/log4j-slf4j2-impl-2.20.0.jar
+      - ${PWD}/spark/jars/log4j-slf4j-impl-2.20.0.jar:/spark/jars/log4j-slf4j-impl-2.20.0.jar
+      - ${PWD}/spark/config/metrics.properties:/spark/conf/metrics.properties
+      - ${PWD}/spark/config/log4j2.properties:/spark/conf/log4j2.properties
+    links:
+      - pushgateway
+
+  spark-worker-1:
+    image: spark351-scala213-worker:latest
+    container_name: spark-worker-1
+    depends_on:
+      - spark-master
+    ports:
+      - "8081:8081"
+    volumes:
+      - ${PWD}/spark/data/treasure_island.txt:/opt/spark-data/treasure_island.txt
+      - ${PWD}/spark/config/metrics.properties:/spark/conf/metrics.properties
+      - ${PWD}/spark/config/log4j2.properties:/spark/conf/log4j2.properties
+    environment:
+      - "SPARK_LOCAL_IP=spark-worker-1"
+      - "SPARK_MASTER=spark://spark-master:7077"
+      - "SPARK_WORKER_CORES=1"
+      - "SPARK_WORKER_MEMORY=2G"
+      - "SPARK_DRIVER_MEMORY=1G"
+      - "SPARK_EXECUTOR_MEMORY=512mb"
+    links:
+      - pushgateway
+
+  spark-worker-2:
+    image: spark351-scala213-worker:latest
+    container_name: spark-worker-2
+    depends_on:
+      - spark-master
+    ports:
+      - "8082:8081"
+    volumes:
+      - ${PWD}/spark/data/treasure_island.txt:/opt/spark-data/treasure_island.txt
+      - ${PWD}/spark/config/metrics.properties:/spark/conf/metrics.properties
+      - ${PWD}/spark/config/log4j2.properties:/spark/conf/log4j2.properties
+    environment:
+      - "SPARK_LOCAL_IP=spark-worker-2"
+      - "SPARK_MASTER=spark://spark-master:7077"
+      - "SPARK_WORKER_CORES=1"
+      - "SPARK_WORKER_MEMORY=2G"
+      - "SPARK_DRIVER_MEMORY=1G"
+      - "SPARK_EXECUTOR_MEMORY=512mb"
+    links:
+      - pushgateway
+
+  pushgateway:
+    container_name: pushgateway
+    image: prom/pushgateway
+    command:
+      - '--web.listen-address=:9191'
+      - '--push.disable-consistency-check'
+      - '--persistence.interval=5m'
+    ports:
+      - 9191:9191
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    command:
+      - '--web.listen-address=:9090'
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+    depends_on:
+      - pushgateway
+    volumes:
+      - ${PWD}/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    links:
+      - pushgateway
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ${PWD}/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ${PWD}/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ${PWD}/grafana/dashboards:/etc/grafana/provisioning/dashboards
+    environment:
+      - GF_SECURITY_ADMIN_USER=pippo
+      - GF_SECURITY_ADMIN_PASSWORD=paperino
+    links:
+      - prometheus
