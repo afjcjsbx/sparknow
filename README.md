@@ -4,13 +4,16 @@
   <img src="assets/images/logo.png"  alt="logo"/>
 </p>
 
-
-
 The Sparknow plugin is a Scala application that uses Spark listeners to collect metrics from key Spark methods and send them to the Prometheus Pushgateway o a Kafka Topic for monitoring the performance of Spark jobs.
 
 The project consists of two modules, **sink** and **spark-job**, the former is the actual plugin that collects the metrics, the latter is a very simple example spark job that performs a word count of a book, it was added for testing and experimentation purposes only.
 
 Plugin has been tested with spark versions 3.3.1 through 3.5.1
+
+### Architecture
+
+![architecture](assets/images/architecture.png "Architecture")
+
 
 ## Metrics
 
